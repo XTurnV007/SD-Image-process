@@ -25,7 +25,11 @@ docker-compose up -d
 ```
 
 ## 作者
-- [二次开发作者，支持他们](https://www.birme.net/)
+- 二次开发作者，支持他们：
+  - 赏个鸡腿  
+    ![微信收款码](https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_weixin.JPG)
+  - 请杯奶茶  
+    ![支付宝收款码](https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_zhifubao.JPG)
 - [Birme作者，支持他们](https://www.birme.net/)
 - 图片单独编辑功能由我编写
 
