@@ -11,15 +11,15 @@
 ## 本地安装
 克隆此仓库并在您喜欢的浏览器中打开index.html（不支持Firefox）。可以将其添加为书签！
 ```bash
-git clone https://github.com/livelifebythecode/birme-sd-variant.git
-cd birme-sd-variant
+git clone https://gitee.com/cursorai/lajiaochaorou.git
+cd lajiaochaorou
 python -m webbrowser index.html  # 或直接打开index.html文件
 ```
 
 ## 使用Docker-Compose运行
 ```bash
-git clone https://github.com/livelifebythecode/birme-sd-variant.git
-cd birme-sd-variant
+git clone https://gitee.com/cursorai/lajiaochaorou.git
+cd lajiaochaorou
 docker-compose up -d
 # 在浏览器中打开 => http://<HOST_IP>:8080
 ```
