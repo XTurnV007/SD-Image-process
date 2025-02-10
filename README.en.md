@@ -12,14 +12,14 @@ When training Stable Diffusion (or other image generation models), high-quality 
 ## Local Installation
 Clone this repository and open the `index.html` file in your favorite browser. You can even bookmark it for quick access!
 ```bash
-git clone https://gitee.com/cursorai/lajiaochaorou.git
+git clone https://github.com/XTurnV007/lajiaochaorou.git
 cd lajiaochaorou
 python -m webbrowser index.html  # Or simply open the index.html file directly
 ```
 
 ## Run with Docker-Compose
 ```bash
-git clone https://gitee.com/cursorai/lajiaochaorou.git
+git clone https://github.com/XTurnV007/lajiaochaorou.git
 cd lajiaochaorou
 docker-compose up -d
 # Open in your browser => http://<HOST_IP>:8080
