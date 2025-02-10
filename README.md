@@ -32,4 +32,4 @@ docker-compose up -d
 ## 额外信息
 Hermite质量选项使用了[Hermite resize库](https://github.com/viliusle/Hermite-resize)，因此您可以根据源图像尝试获得最佳图像质量。
 
-声明：本项目基于开源项目 Birme Variant for Stable Diffusion 修改而来，新增了为每张图片单独设置分辨率的功能，也将英文文本翻译成中文，更加适应国内环境。
+声明：本项目基于开源项目 [Birme Variant for Stable Diffusion](https://github.com/livelifebythecode/birme-sd-variant) 修改而来，新增了为每张图片单独设置分辨率的功能，也将英文文本翻译成中文，更加适应国内环境。
