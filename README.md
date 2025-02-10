@@ -3,35 +3,33 @@
 #### 介绍
 辣椒炒肉图片裁剪器是一个灵活且易于使用的批量图片调整工具。它可以将您的图片调整为任意指定尺寸，并在必要时按比例裁剪。它是一个在线工具，您无需下载或安装到电脑上。辣椒炒肉图片裁剪器完全免费使用。
 
-#### 软件架构
-软件架构说明
+# -> [演示站点](https://storage.googleapis.com/birme-sd-variant/index.html?target_width=512&target_height=512) <-
 
+# 用于Stable Diffusion的图像裁切工具
+在训练Stable Diffusion（或其他生成图像模型）时，我们需要高质量且裁剪为512x512的训练图像。辣椒炒肉图片打标器是快速完成此任务的最佳工具，并且借助[smartcrop.js](https://github.com/jwagner/smartcrop.js/)，它成为了一个非常强大的批量裁剪图像工具。
 
-#### 安装教程
+## 本地安装
+克隆此仓库并在您喜欢的浏览器中打开index.html（不支持Firefox）。可以将其添加为书签！
+```bash
+git clone https://github.com/livelifebythecode/birme-sd-variant.git
+cd birme-sd-variant
+python -m webbrowser index.html  # 或直接打开index.html文件
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 使用Docker-Compose运行
+```bash
+git clone https://github.com/livelifebythecode/birme-sd-variant.git
+cd birme-sd-variant
+docker-compose up -d
+# 在浏览器中打开 => http://<HOST_IP>:8080
+```
 
-#### 使用说明
+## 作者
+- [二次开发作者，支持他们](https://www.birme.net/)
+- [Birme作者，支持他们](https://www.birme.net/)
+- 图片单独编辑功能由我编写
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 额外信息
+Hermite质量选项使用了[Hermite resize库](https://github.com/viliusle/Hermite-resize)，因此您可以根据源图像尝试获得最佳图像质量。
 
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+声明：本项目基于开源项目 Birme Variant for Stable Diffusion 修改而来，新增了为每张图片单独设置分辨率的功能，也将英文文本翻译成中文，更加适应国内环境。
