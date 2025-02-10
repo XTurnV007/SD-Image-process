@@ -26,10 +26,16 @@ docker-compose up -d
 
 ## 作者
 - 二次开发作者，支持他们：
-  - 赏个鸡腿  
-    ![微信收款码](https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_weixin.JPG)
-  - 请杯奶茶  
-    ![支付宝收款码](https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_zhifubao.JPG)
+  <div style="display: flex; align-items: center; gap: 20px;">
+    <div>
+      <img src="https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_weixin.JPG" alt="微信收款码" width="300">
+      <p style="text-align: center;">赏个鸡腿</p>
+    </div>
+    <div>
+      <img src="https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_zhifubao.JPG" alt="支付宝收款码" width="300">
+      <p style="text-align: center;">请杯奶茶</p>
+    </div>
+  </div>
 - [Birme作者，支持他们](https://www.birme.net/)
 - 图片单独编辑功能由我编写
 

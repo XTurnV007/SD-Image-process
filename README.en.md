@@ -26,10 +26,16 @@ docker-compose up -d
 
 ## Authors
 - Secondary development contributors, support them:
-  - Buy them a chicken leg  
-    ![WeChat Payment](https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_weixin.JPG)
-  - Treat them to a milk tea  
-    ![Alipay Payment](https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_zhifubao.JPG)
+  <div style="display: flex; align-items: center; gap: 20px;">
+    <div>
+      <img src="https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_weixin.JPG" alt="WeChat Payment" width="300">
+      <p style="text-align: center;">Buy them a chicken leg</p>
+    </div>
+    <div>
+      <img src="https://gitee.com/cursorai/lajiaochaorou/raw/master/tip/IMG_zhifubao.JPG" alt="Alipay Payment" width="300">
+      <p style="text-align: center;">Treat them to a milk tea</p>
+    </div>
+  </div>
 - [Original Birme Author, support them](https://www.birme.net/)
 - The single image editing feature was developed by me.
 
