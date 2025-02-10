@@ -28,11 +28,11 @@ docker-compose up -d
 - 二次开发作者，支持他们：
   <div style="display: flex; align-items: center; gap: 20px;">
     <div>
-      <img src="https://github.com/XTurnV007/lajiaochaorou/blob/master/tip/IMG_weixin.JPG" alt="微信收款码" width="300">
+      <img src="https://raw.githubusercontent.com/XTurnV007/lajiaochaorou/master/tip/IMG_weixin.JPG" alt="微信收款码" width="300">
       <p style="text-align: center;">赏个鸡腿</p>
     </div>
     <div>
-      <img src="https://github.com/XTurnV007/lajiaochaorou/blob/master/tip/IMG_zhifubao.JPG" alt="支付宝收款码" width="300">
+      <img src="https://raw.githubusercontent.com/XTurnV007/lajiaochaorou/master/tip/IMG_zhifubao.JPG" alt="支付宝收款码" width="300">
       <p style="text-align: center;">请杯奶茶</p>
     </div>
   </div>

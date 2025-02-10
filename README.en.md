@@ -28,11 +28,11 @@ docker-compose up -d
 - Secondary development contributors, support them:
   <div style="display: flex; align-items: center; gap: 20px;">
     <div>
-      <img src="https://github.com/XTurnV007/lajiaochaorou/blob/master/tip/IMG_weixin.JPG" alt="WeChat Payment" width="300">
+      <img src="https://raw.githubusercontent.com/XTurnV007/lajiaochaorou/master/tip/IMG_weixin.JPG" alt="WeChat Payment" width="300">
       <p style="text-align: center;">Buy them a chicken leg</p>
     </div>
     <div>
-      <img src="https://github.com/XTurnV007/lajiaochaorou/blob/master/tip/IMG_zhifubao.JPG" alt="Alipay Payment" width="300">
+      <img src="https://raw.githubusercontent.com/XTurnV007/lajiaochaorou/master/tip/IMG_zhifubao.JPG" alt="Alipay Payment" width="300">
       <p style="text-align: center;">Treat them to a milk tea</p>
     </div>
   </div>
