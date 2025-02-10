@@ -3,7 +3,8 @@
 #### 介绍
 辣椒炒肉图片裁剪器是一个灵活且易于使用的批量图片调整工具。它可以将您的图片调整为任意指定尺寸，并在必要时按比例裁剪。它是一个在线工具，您无需下载或安装到电脑上。辣椒炒肉图片裁剪器完全免费使用。
 
-# -> [演示站点](https://xturnv007.github.io/lajiaochaorou/) <-
+# -> [演示站点Vercel](https://lajiaochaorou-nine.vercel.app/) <-
+# -> [演示站点Github](https://xturnv007.github.io/lajiaochaorou/) <-
 
 # 用于Stable Diffusion的图像裁切工具
 在训练Stable Diffusion（或其他生成图像模型）时，我们需要高质量且裁剪为512x512的训练图像。辣椒炒肉图片打标器是快速完成此任务的最佳工具，并且借助[smartcrop.js](https://github.com/jwagner/smartcrop.js/)，它成为了一个非常强大的批量裁剪图像工具。

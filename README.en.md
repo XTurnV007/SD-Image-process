@@ -3,7 +3,8 @@
 #### Introduction
 Lajiaochaorou Image Cropper is a flexible and easy-to-use batch image adjustment tool. It allows you to resize your images to any specified dimensions and crop them proportionally if necessary. This is an online tool, so you don't need to download or install anything on your computer. Lajiaochaorou Image Cropper is completely free to use.
 
-# -> [Demo Site](https://xturnv007.github.io/lajiaochaorou/) <-
+# -> [Demo Site Vercel](https://lajiaochaorou-nine.vercel.app/) <-
+# -> [Demo Site Github](https://xturnv007.github.io/lajiaochaorou/) <-
 
 # Image Cropping Tool for Stable Diffusion
 When training Stable Diffusion (or other image generation models), high-quality training images cropped to 512x512 are essential. Lajiaochaorou Image Cropper is the best tool to quickly accomplish this task. With the help of [smartcrop.js](https://github.com/jwagner/smartcrop.js/), it becomes a very powerful batch image cropping tool.
