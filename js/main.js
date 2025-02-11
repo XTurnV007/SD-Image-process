@@ -517,7 +517,7 @@ class Birme {
   preview_one(holder, file, force_update) {
     const mask = holder.querySelector(".image-mask");
     if (!force_update && mask.getAttribute("width") > 0) {
-      return;
+        return;
     }
     var img = holder.querySelector("img");
     const tw = config.target_width;
@@ -530,8 +530,8 @@ class Birme {
     let nw = w;
     let nh = h;
     if (!(config.auto_width || config.auto_height || config.no_resize)) {
-      nw = tw * Math.min(w / tw, h / th);
-      nh = th * Math.min(w / tw, h / th);
+        nw = tw * Math.min(w / tw, h / th);
+        nh = th * Math.min(w / tw, h / th);
     }
 
     mask.width = w;
@@ -543,24 +543,32 @@ class Birme {
 
     // 如果有自定义裁剪区域，优先使用
     if (file.custom_crop) {
-      const { x, y, width, height } = file.custom_crop;
-      ctx.clearRect(x, y, width, height);
-    } else {
-      ctx.clearRect((w - nw) * fx, (h - nh) * fy, nw, nh);
-    }
+        const { x, y, width, height } = file.custom_crop;
+        ctx.clearRect(x, y, width, height);
 
-    if (config.border_width > 0) {
-      let border_width = Math.max(2, Math.round((config.border_width * w) / tw));
-      ctx.strokeStyle = config.border_color;
-      ctx.lineWidth = border_width;
-      ctx.strokeRect((w - nw) * fx + border_width / 2, (h - nh) * fy + border_width / 2, nw - border_width, nh - border_width);
+        // **修改：使用自定义裁剪区域更新边框**
+        if (config.border_width > 0) {
+            let border_width = Math.max(2, Math.round((config.border_width * w) / tw));
+            ctx.strokeStyle = config.border_color;
+            ctx.lineWidth = border_width;
+            ctx.strokeRect(x + border_width / 2, y + border_width / 2, width - border_width, height - border_width);
+        }
+    } else {
+        ctx.clearRect((w - nw) * fx, (h - nh) * fy, nw, nh);
+
+        if (config.border_width > 0) {
+            let border_width = Math.max(2, Math.round((config.border_width * w) / tw));
+            ctx.strokeStyle = config.border_color;
+            ctx.lineWidth = border_width;
+            ctx.strokeRect((w - nw) * fx + border_width / 2, (h - nh) * fy + border_width / 2, nw - border_width, nh - border_width);
+        }
     }
 
     // 新增：为 mask 添加鼠标事件监听
     mask.onmousemove = e => this._mask_mousemove(e, mask, file);
     mask.onmousedown = e => this._mask_mousedown(e, mask, file);
     mask.onmouseup = e => this._mask_mouseup(e, mask, file);
-  }
+}
 
   _mask_mousemove(event, mask, file) {
     const rect = mask.getBoundingClientRect();
@@ -665,7 +673,7 @@ class Birme {
     $("#target_width").val(file.adjusted_width);
     $("#target_height").val(file.adjusted_height);
 
-    // 更新预览
+    // **新增：重新调用 preview_one 更新边框**
     this.preview_one(mask.parentElement, file, true);
 }
 
@@ -744,134 +752,123 @@ class Birme {
   }
 
   process_image(img, file) {
-    let tw = file.adjusted_width || config.target_width; // 优先使用记录的目标宽度
-    let th = file.adjusted_height || config.target_height; // 优先使用记录的目标高度
-
-    const iw = img.width; // 原始图片宽度
+    // 获取原始图片尺寸
+    const iw = img.width;  // 原始图片宽度
     const ih = img.height; // 原始图片高度
 
-    let fx = file.focal_x;
-    let fy = file.focal_y;
+    // 初始化目标宽度和高度
+    let tw, th;
 
-    // 如果用户调整了裁剪区域
-    if (file.custom_crop) {
-        const crop = file.custom_crop;
-
-        // **使用记录的目标宽高**
-        tw = file.adjusted_width;
-        th = file.adjusted_height;
-
-        // **根据裁剪区域调整焦点**
-        fx = (crop.x + crop.width / 2) / iw; // 重新计算焦点 x
-        fy = (crop.y + crop.height / 2) / ih; // 重新计算焦点 y
-    } else if (config.no_resize) {
-        // 如果不调整大小，直接使用图片的原始宽高
-        tw = iw;
-        th = ih;
-    } else if (config.auto_width) {
-        // 如果自动调整宽度，根据目标高度和图片比例计算宽度
-        tw = (iw * th) / ih;
-    } else if (config.auto_height) {
-        // 如果自动调整高度，根据目标宽度和图片比例计算高度
-        th = (ih * tw) / iw;
+    // 如果有调整后的宽度和高度，使用它们作为目标尺寸
+    if (file.adjusted_width && file.adjusted_height) {
+      tw = file.adjusted_width;
+      th = file.adjusted_height;
+    } else {
+      // 否则使用全局配置的目标尺寸
+      tw = config.target_width;
+      th = config.target_height;
     }
 
-    let scale = Math.min(iw / tw, ih / th); // 计算缩放比例
-    let srcw = tw * scale; // 裁剪宽度
-    let srch = th * scale; // 裁剪高度
+    // 初始化源裁剪区域参数
+    let srcX = 0;
+    let srcY = 0;
+    let srcW = iw;
+    let srcH = ih;
 
+    // 设置图像平滑质量
     let smoothingEnabled = true;
     let smoothingQuality = "high";
 
     switch (config.quality_preset) {
-        case "low":
-        case "medium":
-        case "high":
-            smoothingEnabled = true;
-            smoothingQuality = config.quality_preset;
-            break;
-        case "disabled":
-            smoothingEnabled = false;
-            break;
-        case "hermite":
-            smoothingEnabled = false;
-            break;
-        default:
-            console.error(`FATAL ERROR: Unexpected quality_preset=${config.quality_preset}, try re-selecting your chosen downscale quality preset in settings!`);
-            throw Error(`FATAL ERROR: Unexpected quality_preset=${config.quality_preset} :(`);
+      case "low":
+      case "medium":
+      case "high":
+        smoothingEnabled = true;
+        smoothingQuality = config.quality_preset;
+        break;
+      case "disabled":
+        smoothingEnabled = false;
+        break;
+      case "hermite":
+        smoothingEnabled = false;
+        break;
+      default:
+        console.error(`FATAL ERROR: Unexpected quality_preset=${config.quality_preset}`);
+        throw Error(`FATAL ERROR: Unexpected quality_preset=${config.quality_preset}`);
     }
 
-    // TODO: SUPPORT JPEG/WEBP QUALITY AND BORDER WIDTH SETTING
-    if (config.quality_preset == "hermite") {
-      let canvasHermite = document.createElement("canvas");
-      let ctxHermite = canvasHermite.getContext("2d");
-  
-      //prepare canvas
-      canvasHermite.width = srcw;
-      canvasHermite.height = srch;
-      
-      //crop image based on focal selection (at full resolution)
-      ctxHermite.drawImage(img, (iw - srcw) * fx, (ih - srch) * fy, srcw, srch, 0, 0, srcw, srch);
-  
-      // Use Hermite library for image downscaling
-      var HERMITE = new Hermite_class();
-      HERMITE.resample_single(canvasHermite, tw, th, true);
+    // 判断是否存在自定义裁剪区域
+    if (file.custom_crop) {
+      const crop = file.custom_crop;
 
-      const new_filename = file.base_name + "." + file.output_format.ext;
-      if (this.output_zip) {
-        canvasHermite.toBlob(b => this.save_zip(b, new_filename), file.output_format.format);
-      } else {
-        canvasHermite.toBlob(
-          b => {
-            saveAs(b, new_filename);
-            this.save_one();
-          },
-          file.output_format.format
-        );
-      }
-      return;
+      // 将画布坐标转换为原始图片的像素坐标
+      srcX = (crop.x / file.image.width) * iw;
+      srcY = (crop.y / file.image.height) * ih;
+      srcW = (crop.width / file.image.width) * iw;
+      srcH = (crop.height / file.image.height) * ih;
+    } else if (config.no_resize) {
+      // 不调整大小，使用原始图片尺寸
+      tw = iw;
+      th = ih;
+    } else if (config.auto_width) {
+      // 根据目标高度计算宽度
+      tw = (iw * th) / ih;
+    } else if (config.auto_height) {
+      // 根据目标宽度计算高度
+      th = (ih * tw) / iw;
+    } else {
+      // 计算缩放比例和裁剪区域
+      let scale = Math.min(iw / tw, ih / th);
+      srcW = tw * scale;
+      srcH = th * scale;
+      srcX = (iw - srcW) * file.focal_x;
+      srcY = (ih - srcH) * file.focal_y;
     }
 
+    // 创建画布并设置尺寸为目标尺寸
     let canvas = document.createElement("canvas");
-    canvas.width = tw; // 目标画布宽度
-    canvas.height = th; // 目标画布高度
+    canvas.width = tw;
+    canvas.height = th;
     let con = canvas.getContext("2d");
 
-    // UTILIZE SEMI-SMART IMAGE DOWNSAMPLING
+    // 设置图像平滑
     con.imageSmoothingEnabled = smoothingEnabled;
     con.imageSmoothingQuality = smoothingQuality;
 
-    let output = file.output_format;
-    // Draw a white background for transparent images
-    if (output.format == "image/jpeg" && !file.is_jpeg) {
-        con.fillStyle = "white";
-        con.fillRect(0, 0, tw, th);
+    // 如果输出格式为 JPEG 且原始图片不是 JPEG，需填充白色背景
+    if (file.output_format.format === "image/jpeg" && !file.is_jpeg) {
+      con.fillStyle = "white";
+      con.fillRect(0, 0, tw, th);
     }
+
     /*******************************************
-     * Border
+     * 绘制边框
      ******************************************/
     let hw = 0;
     if (config.border_width > 0) {
-        con.lineWidth = config.border_width;
-        con.strokeStyle = config.border_color;
-        hw = config.border_width / 2;
-        con.strokeRect(hw, hw, tw - hw * 2, th - hw * 2);
+      con.lineWidth = config.border_width;
+      con.strokeStyle = config.border_color;
+      hw = config.border_width / 2;
+      con.strokeRect(hw, hw, tw - hw * 2, th - hw * 2);
     }
+
     /*******************************************
-     * Image after the border
+     * 绘制裁剪并缩放后的图像
      ******************************************/
     con.drawImage(
-        img,
-        (iw - srcw) * fx, // 裁剪起点 x
-        (ih - srch) * fy, // 裁剪起点 y
-        srcw,             // 裁剪宽度
-        srch,             // 裁剪高度
-        hw,               // 画布起点 x
-        hw,               // 画布起点 y
-        tw - hw * 2,      // 目标宽度
-        th - hw * 2       // 目标高度
+      img,
+      srcX,      // 源图像的裁剪起点 x
+      srcY,      // 源图像的裁剪起点 y
+      srcW,      // 源图像的裁剪宽度
+      srcH,      // 源图像的裁剪高度
+      hw,        // 目标画布的起点 x
+      hw,        // 目标画布的起点 y
+      tw - hw * 2, // 目标画布的宽度
+      th - hw * 2  // 目标画布的高度
     );
-    if (config.wm_text) {  // ENGAGE WATERMARKING TEXT
+
+    // 添加水印（如果有配置）
+    if (config.wm_text) {
       con.font = config.wm_size + "px " + config.map_font(config.wm_font);
       con.textBaseline = "top";
       con.textAlign = "right";
@@ -880,24 +877,32 @@ class Birme {
       con.shadowBlur = 5;
       con.shadowColor = "rgba(0,0,0,0.8)";
       con.fillText(config.wm_text, tw - 10, th - config.wm_size - 10);
-    } else if (config.wm_image) {  // ENGAGE WATERMARKING IMAGE
-      con.drawImage(config.wm_image, tw - config.wm_image_width - 10, th - 10 - config.wm_image_height);
+    } else if (config.wm_image) {
+      con.drawImage(
+        config.wm_image,
+        tw - config.wm_image_width - 10,
+        th - 10 - config.wm_image_height
+      );
     }
+
+    // 生成新的文件名
     let new_filename;
     if (config.rename) {
       if (config.rename.indexOf('ORIGINAL-NAME') > -1) {
         new_filename = config.rename.replace('ORIGINAL-NAME', file.base_name);
-        if (new_filename.toLowerCase().indexOf('.' + output.ext) == -1) new_filename += '.' + output.ext;
+        if (new_filename.toLowerCase().indexOf('.' + file.output_format.ext) === -1) {
+          new_filename += '.' + file.output_format.ext;
+        }
       } else {
         let filename = config.rename.toLowerCase();
-        var pattern = new RegExp("x{2,}");
-        var result = pattern.exec(filename);
+        let pattern = /x{2,}/;
+        let result = pattern.exec(filename);
         if (!result) {
-          pattern = new RegExp("x+");
+          pattern = /x+/;
           result = pattern.exec(filename);
         }
         if (!result) {
-          alert('Sorry the filename pattern cannot be recognized.\nPlease try something like "image-xxx".');
+          alert('抱歉，无法识别文件名模式。\n请尝试类似 "image-xxx" 的格式。');
           return;
         }
         let front = filename.substr(0, result.index);
@@ -906,27 +911,29 @@ class Birme {
         config.rename_start++;
         new_filename = front + index.padStart(result[0].length, "0") + end;
         new_filename = new_filename.replace(/(\.jpe?g)|(\.png)/i, "");
-        new_filename += "." + output.ext;
+        new_filename += "." + file.output_format.ext;
         config.update_url();
         $("#rename_start").val(config.rename_start);
       }
     } else {
-      new_filename = file.base_name + "." + output.ext;
+      new_filename = file.base_name + "." + file.output_format.ext;
     }
 
-    let quality = 92;
-    if (output.format == "image/jpeg") {
+    // 保存图片
+    let quality = 0.92;
+    if (file.output_format.format === "image/jpeg") {
       quality = config.quality_jpeg / 100;
-    } else if (output.format == "image/webp") {
+    } else if (file.output_format.format === "image/webp") {
       quality = config.quality_webp / 100;
-    } else if (output.format == "image/png") {
+    } else if (file.output_format.format === "image/png") {
       quality = -1;
     }
+
     if (this.output_zip) {
       if (quality > 0) {
-        canvas.toBlob(b => this.save_zip(b, new_filename), output.format, quality);
+        canvas.toBlob(b => this.save_zip(b, new_filename), file.output_format.format, quality);
       } else {
-        canvas.toBlob(b => this.save_zip(b, new_filename), output.format);
+        canvas.toBlob(b => this.save_zip(b, new_filename), file.output_format.format);
       }
     } else {
       if (quality > 0) {
@@ -935,7 +942,7 @@ class Birme {
             saveAs(b, new_filename);
             this.save_one();
           },
-          output.format,
+          file.output_format.format,
           quality
         );
       } else {
@@ -944,7 +951,7 @@ class Birme {
             saveAs(b, new_filename);
             this.save_one();
           },
-          output.format
+          file.output_format.format
         );
       }
     }
