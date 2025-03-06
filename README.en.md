@@ -1,4 +1,4 @@
-# Lajiaochaorou Image Cropper
+# Lajiaochaorou SD Image Cropper
 
 #### Introduction
 Lajiaochaorou Image Cropper is a flexible and easy-to-use batch image adjustment tool. It allows you to resize your images to any specified dimensions and crop them proportionally if necessary. This is an online tool, so you don't need to download or install anything on your computer. Lajiaochaorou Image Cropper is completely free to use.
